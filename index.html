@@ -502,20 +502,20 @@
             scene.add(base);
             
             // Разметочная сетка на основании
-            createGridOnBase();
+            // createGridOnBase();
             
             // Добавляем размерные надписи
             createDimensionLabels();
         }
         
         // Создание разметочной сетки
-        function createGridOnBase() {
-            const gridSize = Math.max(structureLength, structureWidth) + 4;
-            const divisions = 10;
-            const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xaaaaaa, 0xdddddd);
-            gridHelper.position.y = 0.01;
-            scene.add(gridHelper);
-        }
+        // function createGridOnBase() {
+        //     const gridSize = Math.max(structureLength, structureWidth) + 4;
+        //     const divisions = 10;
+        //     const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xaaaaaa, 0xdddddd);
+        //     gridHelper.position.y = 0.01;
+        //     scene.add(gridHelper);
+        // }
         
         // Создание размерных надписей
         function createDimensionLabels() {
@@ -530,7 +530,7 @@
             };
             
             // Размер по длине
-            const lengthText = `${structureLength.toFixed(1)} meter`;
+            const lengthText = `${structureLength.toFixed(1)} m`;
             const lengthGeometry = new THREE.TextGeometry(lengthText, textOptions);
             const lengthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const lengthMesh = new THREE.Mesh(lengthGeometry, lengthMaterial);
@@ -544,7 +544,7 @@
             scene.add(lengthMesh);
             
             // Размер по ширине
-            const widthText = `${structureWidth.toFixed(1)} meter`;
+            const widthText = `${structureWidth.toFixed(1)} m`;
             const widthGeometry = new THREE.TextGeometry(widthText, textOptions);
             const widthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const widthMesh = new THREE.Mesh(widthGeometry, widthMaterial);
