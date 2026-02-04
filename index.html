@@ -359,9 +359,9 @@
         let structure = new THREE.Group();
 
         let powerCount = 2;
-        let hHeight = 1;
-        let hLenght = 2;
-        let hWidth  = 3;
+        let hHeight = 1.0;
+        let hLenght = 2.0;
+        let hWidth  = 3.0;
 
         
         let floorCount = 3;
@@ -501,8 +501,10 @@
         
         // Создание ландшафта
         function createLandscape() {
+            updateSize()
             // Основание (железобетонная плита)
-            const baseGeometry = new THREE.BoxGeometry(structureLength + 4, 0.5, structureWidth + 4);
+            // const baseGeometry = new THREE.BoxGeometry(structureLength + 4, 0.5, structureWidth + 4);
+            const baseGeometry = new THREE.BoxGeometry(hLenght + 4, 0.5, hWidth + 4);
             const base = new THREE.Mesh(baseGeometry, materials.base);
             base.position.y = -0.25;
             base.receiveShadow = true;
@@ -829,6 +831,12 @@
             
             return beamGroup;
         }
+
+        function updateSize() {
+            hHeight = powerCount * 1.2;
+            hLenght = powerCount * 1.3;
+            hWidth  = powerCount * 1.4;
+        }
         
         // Создание конструкции
         function createStructure() {
@@ -839,25 +847,42 @@
             
             structure = new THREE.Group();
             structure.name = 'steelStructure';
-            
+
+            // update sizes
+            updateSize()
+
+            // let hLenght = 10;
+            // let hWidth = 20;
+
+            console.log(hLenght)
+            console.log(hLenght,hWidth,hHeight)
+            console.log(structureLength, structureWidth)
+
             // Позиции колонн (8 колонн - по 2 на каждой стороне)
             const columnPositions = [
-                // Левая сторона (задняя и передняя)
-                [-structureLength/2, 0, -structureWidth/2],
-                [-structureLength/2, 0, structureWidth/2],
-                
-                // Передняя сторона
-                [-structureLength/4, 0, -structureWidth/2],
-                [structureLength/4, 0, -structureWidth/2],
-                
-                // Правая сторона
-                [structureLength/2, 0, -structureWidth/2],
-                [structureLength/2, 0, structureWidth/2],
-                
-                // Задняя сторона
-                [-structureLength/4, 0, structureWidth/2],
-                [structureLength/4, 0, structureWidth/2]
+                [-hLenght/2, 0, -hWidth/2],
+                [-hLenght/2, 0,  hWidth/2],
+                [ hLenght/2, 0, -hWidth/2],
+                [ hLenght/2, 0,  hWidth/2]
+
+                //  // Левая сторона (задняя и передняя)
+                //   [-structureLength/2, 0, -structureWidth/2],
+                //   [-structureLength/2, 0, structureWidth/2],
+                //  
+                //  // Правая сторона
+                //   [structureLength/2, 0, -structureWidth/2],
+                //   [structureLength/2, 0, structureWidth/2],
+                //  
+                //  // Передняя сторона
+                //   [-structureLength/4, 0, -structureWidth/2],
+                //   [structureLength/4, 0, -structureWidth/2],
+                //  
+                //  // Задняя сторона
+                //   [-structureLength/4, 0, structureWidth/2],
+                //   [structureLength/4, 0, structureWidth/2]
             ];
+
+            console.log(columnPositions)
             
             // Создаем колонны
             const columns = [];
@@ -951,11 +976,11 @@
             // }
             
             // Верхний пояс (на самом верху)
-            const topY = totalHeight;
-            structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, topY));
-            structure.add(createBeam(-structureLength/2, structureWidth/2, structureLength/2, structureWidth/2, topY));
-            structure.add(createBeam(-structureLength/2, -structureWidth/2, -structureLength/2, structureWidth/2, topY));
-            structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, topY));
+            // const topY = totalHeight;
+            // structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, topY));
+            // structure.add(createBeam(-structureLength/2, structureWidth/2, structureLength/2, structureWidth/2, topY));
+            // structure.add(createBeam(-structureLength/2, -structureWidth/2, -structureLength/2, structureWidth/2, topY));
+            // structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, topY));
             
             scene.add(structure);
             
@@ -971,6 +996,11 @@
         function updatePower(event) {
             powerCount = parseInt(event.target.value);
             document.getElementById('power-value').textContent = powerCount;
+
+            // Создание ландшафта
+            createLandscape();
+            
+            // Создание конструкции
             createStructure();
         }
         
