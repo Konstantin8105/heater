@@ -356,7 +356,9 @@
     <script>
         // Основные переменные
         let scene, camera, renderer, controls, font;
-        let structure = new THREE.Group();
+        let structure  = new THREE.Group();
+        let dimensions = new THREE.Group();
+        let foundation = new THREE.Group();
 
         let powerCount = 2;
         let hHeight = 1.0;
@@ -501,19 +503,25 @@
         
         // Создание ландшафта
         function createLandscape() {
+            if (foundation) {
+                scene.remove(foundation)
+            }
+            foundation = new THREE.Group();
+            foundation.name = 'dimensions';
             // Основание (железобетонная плита)
             // const baseGeometry = new THREE.BoxGeometry(structureLength + 4, 0.5, structureWidth + 4);
             const baseGeometry = new THREE.BoxGeometry(hLenght + 4, 0.5, hWidth + 4);
             const base = new THREE.Mesh(baseGeometry, materials.base);
             base.position.y = -0.25;
             base.receiveShadow = true;
-            scene.add(base);
+            foundation.add(base);
             
             // Разметочная сетка на основании
             // createGridOnBase();
             
             // Добавляем размерные надписи
             // createDimensionLabels();
+            scene.add(foundation)
         }
         
         // Создание разметочной сетки
@@ -528,6 +536,12 @@
         // Создание размерных надписей
         function createDimensionLabels() {
             if (!font) return;
+
+            if (dimensions) {
+                scene.remove(dimensions)
+            }
+            dimensions = new THREE.Group();
+            dimensions.name = 'dimensions';
             
             const textOptions = {
                 font: font,
@@ -536,9 +550,10 @@
                 curveSegments: 12,
                 bevelEnabled: false
             };
+            // console.log("---", structureLength, hLenght)
             
             // Размер по длине
-            const lengthText = `${structureLength.toFixed(1)} m`;
+            const lengthText = `${hLenght.toFixed(1)} m`; // `${structureLength.toFixed(1)} m`;
             const lengthGeometry = new THREE.TextGeometry(lengthText, textOptions);
             const lengthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const lengthMesh = new THREE.Mesh(lengthGeometry, lengthMaterial);
@@ -549,10 +564,10 @@
             
             lengthMesh.position.set(-lengthWidth/2, 0.2, -structureWidth/2 - 2.5);
             lengthMesh.rotation.x = -Math.PI / 2;
-            scene.add(lengthMesh);
+            dimensions.add(lengthMesh);
             
             // Размер по ширине
-            const widthText = `${structureWidth.toFixed(1)} m`;
+            const widthText = `${hWidth.toFixed(1)} m`; // `${structureWidth.toFixed(1)} m`;
             const widthGeometry = new THREE.TextGeometry(widthText, textOptions);
             const widthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const widthMesh = new THREE.Mesh(widthGeometry, widthMaterial);
@@ -564,10 +579,12 @@
             widthMesh.position.set(-structureLength/2 - 2.5, 0.2, -widthTextWidth/2);
             widthMesh.rotation.x = -Math.PI / 2;
             widthMesh.rotation.z = Math.PI / 2;
-            scene.add(widthMesh);
+            dimensions.add(widthMesh);
             
             // Размер по высоте (будет обновляться)
             // updateHeightLabel();
+
+            scene.add(dimensions)
         }
         
         // Обновление надписи высоты
@@ -839,16 +856,17 @@
         
         // Создание конструкции
         function createStructure() {
-            // update sizes
-            updateSize()
-
-            createLandscape();
-            createDimensionLabels();
 
             // Удаляем старую конструкцию
             if (structure) {
                 scene.remove(structure);
             }
+
+            // update sizes
+            updateSize()
+
+            createLandscape();
+            createDimensionLabels();
             
             structure = new THREE.Group();
             structure.name = 'steelStructure';
@@ -856,9 +874,9 @@
             // let hLenght = 10;
             // let hWidth = 20;
 
-            console.log(hLenght)
-            console.log(hLenght,hWidth,hHeight)
-            console.log(structureLength, structureWidth)
+            // console.log(hLenght)
+            // console.log(hLenght,hWidth,hHeight)
+            // console.log(structureLength, structureWidth)
 
             // Позиции колонн (8 колонн - по 2 на каждой стороне)
             const columnPositions = [
@@ -884,7 +902,7 @@
                 //   [structureLength/4, 0, structureWidth/2]
             ];
 
-            console.log(columnPositions)
+            // console.log(columnPositions)
             
             // Создаем колонны
             const columns = [];
