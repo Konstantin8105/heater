@@ -357,9 +357,16 @@
         // Основные переменные
         let scene, camera, renderer, controls, font;
         let structure = new THREE.Group();
+
+        let powerCount = 2;
+        let hHeight = 1;
+        let hLenght = 2;
+        let hWidth  = 3;
+
+        
         let floorCount = 3;
         let tierHeight = 3.0;
-        let equipmentCount = 3;
+        // let equipmentCount = 3;
         const structureLength = 12.0;
         const structureWidth = 8.0;
         
@@ -865,83 +872,83 @@
             // let diagonalCount = 0;
             
             // Создаем ярусы
-            for (let floor = 0; floor < floorCount; floor++) {
-                const currentY = floor * tierHeight;
-                const nextY = (floor + 1) * tierHeight;
-                
-                // Горизонтальные ригели на уровне текущего яруса
-                // По длине
-                structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, currentY));
-                structure.add(createBeam(-structureLength/2, structureWidth/2, structureLength/2, structureWidth/2, currentY));
-                
-                // По ширине
-                structure.add(createBeam(-structureLength/2, -structureWidth/2, -structureLength/2, structureWidth/2, currentY));
-                structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, currentY));
-                
-                // Крестообразные раскосы в вертикальных плоскостях
-                // if (floor < floorCount - 1) {
-                //     // Фасадные раскосы (передняя сторона)
-                //     structure.add(createCrossDiagonal(
-                //         -structureLength/2, -structureWidth/2,
-                //         structureLength/2, -structureWidth/2,
-                //         (currentY + nextY) / 2,
-                //         tierHeight
-                //     ));
-                //     diagonalCount += 2; // Крестообразный раскос считаем как 2 элемента
-                //     
-                //     // Боковые раскосы (левая сторона)
-                //     structure.add(createCrossDiagonal(
-                //         -structureLength/2, -structureWidth/2,
-                //         -structureLength/2, structureWidth/2,
-                //         (currentY + nextY) / 2,
-                //         tierHeight
-                //     ));
-                //     diagonalCount += 2;
-                //     
-                //     // Задние раскосы
-                //     structure.add(createCrossDiagonal(
-                //         -structureLength/2, structureWidth/2,
-                //         structureLength/2, structureWidth/2,
-                //         (currentY + nextY) / 2,
-                //         tierHeight
-                //     ));
-                //     diagonalCount += 2;
-                //     
-                //     // Правые боковые раскосы
-                //     structure.add(createCrossDiagonal(
-                //         structureLength/2, -structureWidth/2,
-                //         structureLength/2, structureWidth/2,
-                //         (currentY + nextY) / 2,
-                //         tierHeight
-                //     ));
-                //     diagonalCount += 2;
-                //     
-                //     // Диагональные связи в горизонтальной плоскости
-                //     structure.add(createCrossDiagonal(
-                //         -structureLength/2, -structureWidth/2,
-                //         structureLength/2, structureWidth/2,
-                //         currentY + tierHeight/2,
-                //         0.5
-                //     ));
-                //     diagonalCount += 2;
-                //     
-                //     structure.add(createCrossDiagonal(
-                //         structureLength/2, -structureWidth/2,
-                //         -structureLength/2, structureWidth/2,
-                //         currentY + tierHeight/2,
-                //         0.5
-                //     ));
-                //     diagonalCount += 2;
-                // }
-                
-                // Пол яруса (начиная со второго яруса)
-                // if (floor > 0) {
-                //     structure.add(createFloor(floor, currentY - 0.1));
-                //     
-                //     // Оборудование на ярусе
-                //     // structure.add(createEquipment(floor, currentY));
-                // }
-            }
+            // for (let floor = 0; floor < floorCount; floor++) {
+            //     const currentY = floor * tierHeight;
+            //     const nextY = (floor + 1) * tierHeight;
+            //     
+            //     // Горизонтальные ригели на уровне текущего яруса
+            //     // По длине
+            //     structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, currentY));
+            //     structure.add(createBeam(-structureLength/2, structureWidth/2, structureLength/2, structureWidth/2, currentY));
+            //     
+            //     // По ширине
+            //     structure.add(createBeam(-structureLength/2, -structureWidth/2, -structureLength/2, structureWidth/2, currentY));
+            //     structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, currentY));
+            //     
+            //     // Крестообразные раскосы в вертикальных плоскостях
+            //     // if (floor < floorCount - 1) {
+            //     //     // Фасадные раскосы (передняя сторона)
+            //     //     structure.add(createCrossDiagonal(
+            //     //         -structureLength/2, -structureWidth/2,
+            //     //         structureLength/2, -structureWidth/2,
+            //     //         (currentY + nextY) / 2,
+            //     //         tierHeight
+            //     //     ));
+            //     //     diagonalCount += 2; // Крестообразный раскос считаем как 2 элемента
+            //     //     
+            //     //     // Боковые раскосы (левая сторона)
+            //     //     structure.add(createCrossDiagonal(
+            //     //         -structureLength/2, -structureWidth/2,
+            //     //         -structureLength/2, structureWidth/2,
+            //     //         (currentY + nextY) / 2,
+            //     //         tierHeight
+            //     //     ));
+            //     //     diagonalCount += 2;
+            //     //     
+            //     //     // Задние раскосы
+            //     //     structure.add(createCrossDiagonal(
+            //     //         -structureLength/2, structureWidth/2,
+            //     //         structureLength/2, structureWidth/2,
+            //     //         (currentY + nextY) / 2,
+            //     //         tierHeight
+            //     //     ));
+            //     //     diagonalCount += 2;
+            //     //     
+            //     //     // Правые боковые раскосы
+            //     //     structure.add(createCrossDiagonal(
+            //     //         structureLength/2, -structureWidth/2,
+            //     //         structureLength/2, structureWidth/2,
+            //     //         (currentY + nextY) / 2,
+            //     //         tierHeight
+            //     //     ));
+            //     //     diagonalCount += 2;
+            //     //     
+            //     //     // Диагональные связи в горизонтальной плоскости
+            //     //     structure.add(createCrossDiagonal(
+            //     //         -structureLength/2, -structureWidth/2,
+            //     //         structureLength/2, structureWidth/2,
+            //     //         currentY + tierHeight/2,
+            //     //         0.5
+            //     //     ));
+            //     //     diagonalCount += 2;
+            //     //     
+            //     //     structure.add(createCrossDiagonal(
+            //     //         structureLength/2, -structureWidth/2,
+            //     //         -structureLength/2, structureWidth/2,
+            //     //         currentY + tierHeight/2,
+            //     //         0.5
+            //     //     ));
+            //     //     diagonalCount += 2;
+            //     // }
+            //     
+            //     // Пол яруса (начиная со второго яруса)
+            //     // if (floor > 0) {
+            //     //     structure.add(createFloor(floor, currentY - 0.1));
+            //     //     
+            //     //     // Оборудование на ярусе
+            //     //     // structure.add(createEquipment(floor, currentY));
+            //     // }
+            // }
             
             // Верхний пояс (на самом верху)
             const topY = totalHeight;
