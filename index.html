@@ -236,8 +236,6 @@
                 <h2>Управление моделью</h2>
                 -->
 
-                <!-- project 19 -  2.0 MW for rad -->
-                <!-- project 15 - 98.5 MW for rad -->
                 <div class="control-group">
                     <div class="slider-container">
                         <div class="slider-label">
@@ -434,7 +432,7 @@
             
             // Создание камеры
             camera = new THREE.PerspectiveCamera(45, 600 / 500, 0.1, 1000);
-            camera.position.set(20, 15, 20);
+            camera.position.set(20, 25, 20);
             
             // Создание рендерера
             renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -562,7 +560,7 @@
             lengthGeometry.computeBoundingBox();
             const lengthWidth = lengthGeometry.boundingBox.max.x - lengthGeometry.boundingBox.min.x;
             
-            lengthMesh.position.set(-lengthWidth/2, 0.2, -structureWidth/2 - 2.5);
+            lengthMesh.position.set(-lengthWidth/2, 0.2, -hWidth/2 - 2.5);
             lengthMesh.rotation.x = -Math.PI / 2;
             dimensions.add(lengthMesh);
             
@@ -576,7 +574,7 @@
             widthGeometry.computeBoundingBox();
             const widthTextWidth = widthGeometry.boundingBox.max.x - widthGeometry.boundingBox.min.x;
             
-            widthMesh.position.set(-structureLength/2 - 2.5, 0.2, -widthTextWidth/2);
+            widthMesh.position.set(-hLenght/2 - 2.5, 0.2, -widthTextWidth/2);
             widthMesh.rotation.x = -Math.PI / 2;
             widthMesh.rotation.z = Math.PI / 2;
             dimensions.add(widthMesh);
@@ -848,10 +846,28 @@
             return beamGroup;
         }
 
+        // project 19 -  2.0 MW for rad
+        // project 15 - 98.5 MW for rad
         function updateSize() {
-            hHeight = powerCount * 1.2;
-            hLenght = powerCount * 1.3;
-            hWidth  = powerCount * 1.4;
+            {
+                hHeight = 13;
+            }
+
+            // 19 : L =  6.0
+            // 15 : L = 19.5
+            {
+                let a = (19.5-6.0)/(98.5-2.0);
+                let b = 6.0 - a * 2.0
+                hLenght = a * powerCount + b;
+            }
+
+            // 19 : W = 7.5
+            // 15 : W = 15.5
+            {
+                let a = (15.5-7.5)/(98.5-2.0);
+                let b = 7.5 - a * 2.0
+                hWidth  = a * powerCount + b;
+            }
         }
         
         // Создание конструкции
@@ -909,7 +925,7 @@
             const totalHeight = floorCount * tierHeight;
             
             columnPositions.forEach(pos => {
-                const column = createIBeamColumn(pos[0], pos[2], totalHeight);
+                const column = createIBeamColumn(pos[0], pos[2], hHeight);// totalHeight);
                 structure.add(column);
                 columns.push(column);
             });
