@@ -242,7 +242,7 @@
                             <span>Мощность парового риформинга, MW</span>
                             <span id="power-value" class="slider-value">2</span>
                         </div>
-                        <input type="range" id="power-slider" min="2" max="100" value="2" step="1">
+                        <input type="range" id="power-slider" min="2" max="150" value="2" step="1">
                         <!--
                         <div class="slider-ticks">
                             <span>1</span>
@@ -376,57 +376,16 @@
                 metalness: 0.6,
                 roughness: 0.3
             }),
-            // diagonal: new THREE.MeshStandardMaterial({ 
-            //     color: 0xff9800, // оранжевый
-            //     metalness: 0.5,
-            //     roughness: 0.4
-            // }),
-            // beam: new THREE.MeshStandardMaterial({ 
-            //     color: 0x90a4ae, // светлый серый
-            //     metalness: 0.6,
-            //     roughness: 0.3
-            // }),
-            // base: new THREE.MeshStandardMaterial({ 
-            //     color: 0xb0bec5, // светлый серый
-            //     metalness: 0.2,
-            //     roughness: 0.8
-            // }),
-            // floor: new THREE.MeshStandardMaterial({ 
-            //     color: 0x78909c, // серо-голубой
-            //     metalness: 0.3,
-            //     roughness: 0.7,
-            //     transparent: true,
-            //     opacity: 0.7
-            // }),
             radwall: new THREE.MeshStandardMaterial({ 
-                // color: 0xf44336, // красный
-                // color: 0x90a4ae, // светлый серый
                 color: 0xB5B5B5,
                 metalness: 0.4,
                 roughness: 0.5
             }),
             pentwall: new THREE.MeshStandardMaterial({ 
-                // color: 0xffeb3b, // жёлтый
-                // color: 0xb0bec5, // светлый серый
                 color: 0x666666, // светлый серый
                 metalness: 0.4,
                 roughness: 0.5
             }),
-            // equipment2: new THREE.MeshStandardMaterial({ 
-            //     color: 0x4caf50, // зелёный
-            //     metalness: 0.4,
-            //     roughness: 0.5
-            // }),
-            // equipment3: new THREE.MeshStandardMaterial({ 
-            //     color: 0xffeb3b, // жёлтый
-            //     metalness: 0.4,
-            //     roughness: 0.5
-            // }),
-            // pipe: new THREE.MeshStandardMaterial({ 
-            //     color: 0x607d8b, // серо-голубой
-            //     metalness: 0.7,
-            //     roughness: 0.3
-            // })
         };
         
         // Загрузка шрифта для 3D текста
@@ -466,22 +425,13 @@
                 font = loadedFont;
                 // Добавление освещения
                 addLighting();
-                
-                // Создание ландшафта
-                // createLandscape();
-                
                 // Создание конструкции
                 createStructure();
-                
                 // Анимация
                 animate();
             });
             
-            // Добавление обработчиков событий для слайдеров
             document.getElementById('power-slider').addEventListener('input', updatePower);
-            // document.getElementById('floor-slider').addEventListener('input', updateFloorCount);
-            // document.getElementById('height-slider').addEventListener('input', updateTierHeight);
-            // document.getElementById('equipment-slider').addEventListener('input', updateEquipmentCount);
         }
         
         // Добавление освещения (ярче)
@@ -529,15 +479,6 @@
             // createDimensionLabels();
             scene.add(foundation)
         }
-        
-        // Создание разметочной сетки
-        // function createGridOnBase() {
-        //     const gridSize = Math.max(structureLength, structureWidth) + 4;
-        //     const divisions = 10;
-        //     const gridHelper = new THREE.GridHelper(gridSize, divisions, 0xaaaaaa, 0xdddddd);
-        //     gridHelper.position.y = 0.01;
-        //     scene.add(gridHelper);
-        // }
         
         // Создание размерных надписей
         function createDimensionLabels() {
@@ -593,44 +534,6 @@
             scene.add(dimensions)
         }
         
-        // Обновление надписи высоты
-        // function updateHeightLabel() {
-        //     // Удаляем старую надпись высоты, если есть
-        //     const oldHeightLabel = scene.getObjectByName('heightLabel');
-        //     if (oldHeightLabel) {
-        //         scene.remove(oldHeightLabel);
-        //     }
-        //     
-        //     if (!font) return;
-        //     
-        //     const totalHeight = floorCount * tierHeight;
-        //     const heightText = `Высота: ${totalHeight.toFixed(1)} м`;
-        //     
-        //     const textOptions = {
-        //         font: font,
-        //         size: 0.8,
-        //         height: 0.1,
-        //         curveSegments: 12,
-        //         bevelEnabled: false
-        //     };
-        //     
-        //     const heightGeometry = new THREE.TextGeometry(heightText, textOptions);
-        //     const heightMaterial = new THREE.MeshBasicMaterial({ color: 0xff9800 });
-        //     const heightMesh = new THREE.Mesh(heightGeometry, heightMaterial);
-        //     heightMesh.name = 'heightLabel';
-        //     
-        //     // Центрируем геометрию текста
-        //     heightGeometry.computeBoundingBox();
-        //     const textWidth = heightGeometry.boundingBox.max.x - heightGeometry.boundingBox.min.x;
-        //     
-        //     heightMesh.position.set(structureLength/2 + 2, totalHeight/2, 0);
-        //     scene.add(heightMesh);
-        //     
-        //     // Обновляем текст в панели управления
-        //    // document.getElementById('dimensions-text').textContent = 
-        //    //     `Длина: ${structureLength.toFixed(1)} м, Ширина: ${structureWidth.toFixed(1)} м, Высота: ${totalHeight.toFixed(1)} м`;
-        // }
-        
         // Создание двутавровой колонны
         function createIBeamColumn(x, z, height) {
             const columnGroup = new THREE.Group();
@@ -659,71 +562,7 @@
             columnGroup.position.set(x, height/2, z);
             return columnGroup;
         }
-        
-        // Создание крестообразного раскоса
-        // function createCrossDiagonal(x1, z1, x2, z2, yPos, height) {
-        //     const diagonalGroup = new THREE.Group();
-        //     
-        //     // Вычисляем длину диагонали
-        //     const dx = x2 - x1;
-        //     const dz = z2 - z1;
-        //     const length = Math.sqrt(dx*dx + dz*dz);
-        //     
-        //     // Первый диагональный элемент (основной)
-        //     const diag1Geometry = new THREE.BoxGeometry(0.08, height, 0.08);
-        //     const diag1 = new THREE.Mesh(diag1Geometry, materials.diagonal);
-        //     diag1.castShadow = true;
-        //     
-        //     // Второй диагональный элемент (крест-накрест)
-        //     const diag2 = new THREE.Mesh(diag1Geometry, materials.diagonal);
-        //     diag2.castShadow = true;
-        //     diag2.rotation.y = Math.PI / 2;
-        //     
-        //     // Позиционируем группу
-        //     diagonalGroup.add(diag1);
-        //     diagonalGroup.add(diag2);
-        //     
-        //     diagonalGroup.position.set(
-        //         (x1 + x2) / 2,
-        //         yPos,
-        //         (z1 + z2) / 2
-        //     );
-        //     
-        //     // Поворачиваем по направлению диагонали
-        //     const angle = Math.atan2(dz, dx);
-        //     diagonalGroup.rotation.y = angle;
-        //     
-        //     return diagonalGroup;
-        // }
-        
-        // Создание пола яруса
-        // function createFloor(level, yPos) {
-        //     const floorGroup = new THREE.Group();
-        //     
-        //     // Решётчатый настил
-        //     const floorSizeX = structureLength - 1;
-        //     const floorSizeZ = structureWidth - 1;
-        //     
-        //     // Основная решётка
-        //     for (let i = 0; i <= 10; i++) {
-        //         // Продольные элементы
-        //         const beamXGeometry = new THREE.BoxGeometry(floorSizeX, 0.05, 0.05);
-        //         const beamX = new THREE.Mesh(beamXGeometry, materials.floor);
-        //         beamX.position.set(0, yPos + 0.025, -floorSizeZ/2 + i * floorSizeZ/10);
-        //         beamX.castShadow = true;
-        //         floorGroup.add(beamX);
-        //         
-        //         // Поперечные элементы
-        //         const beamZGeometry = new THREE.BoxGeometry(0.05, 0.05, floorSizeZ);
-        //         const beamZ = new THREE.Mesh(beamZGeometry, materials.floor);
-        //         beamZ.position.set(-floorSizeX/2 + i * floorSizeX/10, yPos + 0.025, 0);
-        //         beamZ.castShadow = true;
-        //         floorGroup.add(beamZ);
-        //     }
-        //     
-        //     return floorGroup;
-        // }
-        
+
         // Создание оборудования на ярусе
         // function createEquipment(level, yPos) {
         //     const equipmentGroup = new THREE.Group();
@@ -787,31 +626,6 @@
         //     return equipmentGroup;
         // }
         
-        // Создание трубы
-        // function createPipe(x1, y1, z1, x2, y2, z2) {
-        //     const dx = x2 - x1;
-        //     const dy = y2 - y1;
-        //     const dz = z2 - z1;
-        //     const length = Math.sqrt(dx*dx + dy*dy + dz*dz);
-        //     
-        //     const pipeGeometry = new THREE.CylinderGeometry(0.05, 0.05, length, 8);
-        //     const pipe = new THREE.Mesh(pipeGeometry, materials.pipe);
-        //     pipe.castShadow = true;
-        //     
-        //     // Позиционируем и поворачиваем трубу
-        //     pipe.position.set(
-        //         (x1 + x2) / 2,
-        //         (y1 + y2) / 2,
-        //         (z1 + z2) / 2
-        //     );
-        //     
-        //     // Вычисляем угол поворота
-        //     pipe.rotation.x = Math.atan2(dz, Math.sqrt(dx*dx + dy*dy));
-        //     pipe.rotation.z = Math.atan2(dy, dx);
-        //     
-        //     return pipe;
-        // }
-        
         // Создание ригеля (горизонтальной балки)
         function createBeam(startX, startZ, endX, endZ, yPos) {
             const beamGroup = new THREE.Group();
@@ -854,25 +668,34 @@
             return beamGroup;
         }
 
-        // project 19 -  2.0 MW for rad
-        // project 15 - 98.5 MW for rad
+        // project 19 -   2.0 MW for rad
+        // project 15 -  98.5 MW for rad
+        // project 25 - 133.6 MW for rad
         function updateSize() {
             // 19 : L =  6.0
             // 15 : L = 19.5
-            {
+            // 25 : L = 25.0
+            if (powerCount < 98.5) {
                 let a = (19.5-6.0)/(98.5-2.0);
                 let b = 6.0 - a * 2.0
-                // hLenght = a * powerCount + b;
+                hLenght = Math.floor((a * powerCount + b)/2.2)*2.2;
+            } else {
+                let a = (25.0-19.5)/(133.6-98.5);
+                let b = 19.5 - a * 98.5
                 hLenght = Math.floor((a * powerCount + b)/2.2)*2.2;
             }
 
             // 19 : W = 7.5
             // 15 : W = 15.5
+            // 25 : W = 13.0
             {
                 let a = (15.5-7.5)/(98.5-2.0);
                 let b = 7.5 - a * 2.0
                 // hWidth  = a * powerCount + b;
                 hWidth  = Math.floor((a * powerCount + b)/0.3)*0.3;
+                if (13.0 < hWidth) {
+                    hWidth = 13.0
+                }
             }
         }
         
@@ -896,14 +719,6 @@
             let floorElevation =  3.0;
             let radHeight      = 13.0;
 
-
-            // let hLenght = 10;
-            // let hWidth = 20;
-
-            // console.log(hLenght)
-            // console.log(hLenght,hWidth,hHeight)
-            // console.log(structureLength, structureWidth)
-
             // Позиции колонн (8 колонн - по 2 на каждой стороне)
             const columnPositions = [
                 // Левая сторона (задняя и передняя)
@@ -925,88 +740,7 @@
                 structure.add(column);
                 columns.push(column);
             });
-            
-            // let diagonalCount = 0;
-            
-            // Создаем ярусы
-            // for (let floor = 0; floor < floorCount; floor++) {
-            //     const currentY = floor * tierHeight;
-            //     const nextY = (floor + 1) * tierHeight;
-            //     
-            //     // Горизонтальные ригели на уровне текущего яруса
-            //     // По длине
-            //     structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, currentY));
-            //     structure.add(createBeam(-structureLength/2, structureWidth/2, structureLength/2, structureWidth/2, currentY));
-            //     
-            //     // По ширине
-            //     structure.add(createBeam(-structureLength/2, -structureWidth/2, -structureLength/2, structureWidth/2, currentY));
-            //     structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, currentY));
-            //     
-            //     // Крестообразные раскосы в вертикальных плоскостях
-            //     // if (floor < floorCount - 1) {
-            //     //     // Фасадные раскосы (передняя сторона)
-            //     //     structure.add(createCrossDiagonal(
-            //     //         -structureLength/2, -structureWidth/2,
-            //     //         structureLength/2, -structureWidth/2,
-            //     //         (currentY + nextY) / 2,
-            //     //         tierHeight
-            //     //     ));
-            //     //     diagonalCount += 2; // Крестообразный раскос считаем как 2 элемента
-            //     //     
-            //     //     // Боковые раскосы (левая сторона)
-            //     //     structure.add(createCrossDiagonal(
-            //     //         -structureLength/2, -structureWidth/2,
-            //     //         -structureLength/2, structureWidth/2,
-            //     //         (currentY + nextY) / 2,
-            //     //         tierHeight
-            //     //     ));
-            //     //     diagonalCount += 2;
-            //     //     
-            //     //     // Задние раскосы
-            //     //     structure.add(createCrossDiagonal(
-            //     //         -structureLength/2, structureWidth/2,
-            //     //         structureLength/2, structureWidth/2,
-            //     //         (currentY + nextY) / 2,
-            //     //         tierHeight
-            //     //     ));
-            //     //     diagonalCount += 2;
-            //     //     
-            //     //     // Правые боковые раскосы
-            //     //     structure.add(createCrossDiagonal(
-            //     //         structureLength/2, -structureWidth/2,
-            //     //         structureLength/2, structureWidth/2,
-            //     //         (currentY + nextY) / 2,
-            //     //         tierHeight
-            //     //     ));
-            //     //     diagonalCount += 2;
-            //     //     
-            //     //     // Диагональные связи в горизонтальной плоскости
-            //     //     structure.add(createCrossDiagonal(
-            //     //         -structureLength/2, -structureWidth/2,
-            //     //         structureLength/2, structureWidth/2,
-            //     //         currentY + tierHeight/2,
-            //     //         0.5
-            //     //     ));
-            //     //     diagonalCount += 2;
-            //     //     
-            //     //     structure.add(createCrossDiagonal(
-            //     //         structureLength/2, -structureWidth/2,
-            //     //         -structureLength/2, structureWidth/2,
-            //     //         currentY + tierHeight/2,
-            //     //         0.5
-            //     //     ));
-            //     //     diagonalCount += 2;
-            //     // }
-            //     
-            //     // Пол яруса (начиная со второго яруса)
-            //     // if (floor > 0) {
-            //     //     structure.add(createFloor(floor, currentY - 0.1));
-            //     //     
-            //     //     // Оборудование на ярусе
-            //     //     // structure.add(createEquipment(floor, currentY));
-            //     // }
-            // }
-            
+
             // Верхний пояс (на самом верху)
             // const topY = totalHeight;
             // structure.add(createBeam(-structureLength/2, -structureWidth/2, structureLength/2, -structureWidth/2, topY));
@@ -1029,61 +763,21 @@
             structure.add(pentwall);
             
             scene.add(structure);
-            
-            // Обновляем счетчик элементов
-            // document.getElementById('elements-count').textContent = 
-            //    `Колонн: ${columns.length}, Раскосов: ${diagonalCount}, Ярусов: ${floorCount}`;
-            
-            // Обновляем надпись высоты
-            // updateHeightLabel();
         }
-
         // Обновление power
         function updatePower(event) {
             powerCount = parseInt(event.target.value);
             document.getElementById('power-value').textContent = powerCount;
-
-            // Создание ландшафта
-            // createLandscape();
-            
-            // Создание конструкции
             createStructure();
         }
-        
-        // Обновление количества ярусов
-        // function updateFloorCount(event) {
-        //     floorCount = parseInt(event.target.value);
-        //     document.getElementById('floor-value').textContent = floorCount;
-        //     createStructure();
-        // }
-        
-        // Обновление высоты яруса
-        // function updateTierHeight(event) {
-        //     tierHeight = parseFloat(event.target.value);
-        //     document.getElementById('height-value').textContent = tierHeight.toFixed(1);
-        //     createStructure();
-        // }
-        
-        // Обновление количества оборудования
-        // function updateEquipmentCount(event) {
-        //     equipmentCount = parseInt(event.target.value);
-        //     document.getElementById('equipment-value').textContent = equipmentCount;
-        //     createStructure();
-        // }
-        
         // Анимация
         function animate() {
             requestAnimationFrame(animate);
-            
-            // Убрано автоматическое вращение - только ручное управление мышью
-            
             // Обновление элементов управления
             controls.update();
-            
             // Рендеринг сцены
             renderer.render(scene, camera);
         }
-        
         // Обработка изменения размера окна
         window.addEventListener('resize', function() {
             const container = document.querySelector('.model-container');
@@ -1094,7 +788,6 @@
             camera.updateProjectionMatrix();
             renderer.setSize(width, height);
         });
-        
         // Инициализация при загрузке страницы
         window.onload = init;
     </script>
