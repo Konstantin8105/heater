@@ -232,15 +232,19 @@
             </div>
             
             <div class="controls">
+                <!--
                 <h2>Управление моделью</h2>
-                
+                -->
+
+                <!-- project 19 -  2.0 MW for rad -->
+                <!-- project 15 - 98.5 MW for rad -->
                 <div class="control-group">
                     <div class="slider-container">
                         <div class="slider-label">
-                            <span>Количество ярусов:</span>
-                            <span id="floor-value" class="slider-value">3</span>
+                            <span>Мощность парового риформинга, MW</span>
+                            <span id="power-value" class="slider-value">2</span>
                         </div>
-                        <input type="range" id="floor-slider" min="1" max="6" value="3" step="1">
+                        <input type="range" id="power-slider" min="2" max="100" value="2" step="1">
                         <!--
                         <div class="slider-ticks">
                             <span>1</span>
@@ -253,7 +257,30 @@
                         -->
                     </div>
                 </div>
+
+
+
+                <!--
+                <div class="control-group">
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Количество ярусов:</span>
+                            <span id="floor-value" class="slider-value">3</span>
+                        </div>
+                        <input type="range" id="floor-slider" min="1" max="6" value="3" step="1">
+                        <div class="slider-ticks">
+                            <span>1</span>
+                            <span>2</span>
+                            <span>3</span>
+                            <span>4</span>
+                            <span>5</span>
+                            <span>6</span>
+                        </div>
+                    </div>
+                </div>
+                -->
                 
+                <!--
                 <div class="control-group">
                     <div class="slider-container">
                         <div class="slider-label">
@@ -261,15 +288,15 @@
                             <span id="height-value" class="slider-value">3.0</span>
                         </div>
                         <input type="range" id="height-slider" min="2.0" max="5.0" value="3.0" step="0.5">
-                        <!--
                         <div class="slider-ticks">
                             <span>2.0</span>
                             <span>5.0</span>
                         </div>
-                        -->
                     </div>
                 </div>
+                -->
                 
+                        <!--
                 <div class="control-group">
                     <div class="slider-container">
                         <div class="slider-label">
@@ -277,14 +304,13 @@
                             <span id="equipment-value" class="slider-value">3</span>
                         </div>
                         <input type="range" id="equipment-slider" min="1" max="6" value="3" step="1">
-                        <!--
                         <div class="slider-ticks">
                             <span>Меньше</span>
                             <span>Больше</span>
                         </div>
-                        -->
                     </div>
                 </div>
+                        -->
                 
                 <!--
                 <div class="control-group">
@@ -366,26 +392,26 @@
                 transparent: true,
                 opacity: 0.7
             }),
-            equipment1: new THREE.MeshStandardMaterial({ 
-                color: 0xf44336, // красный
-                metalness: 0.4,
-                roughness: 0.5
-            }),
-            equipment2: new THREE.MeshStandardMaterial({ 
-                color: 0x4caf50, // зелёный
-                metalness: 0.4,
-                roughness: 0.5
-            }),
-            equipment3: new THREE.MeshStandardMaterial({ 
-                color: 0xffeb3b, // жёлтый
-                metalness: 0.4,
-                roughness: 0.5
-            }),
-            pipe: new THREE.MeshStandardMaterial({ 
-                color: 0x607d8b, // серо-голубой
-                metalness: 0.7,
-                roughness: 0.3
-            })
+            // equipment1: new THREE.MeshStandardMaterial({ 
+            //     color: 0xf44336, // красный
+            //     metalness: 0.4,
+            //     roughness: 0.5
+            // }),
+            // equipment2: new THREE.MeshStandardMaterial({ 
+            //     color: 0x4caf50, // зелёный
+            //     metalness: 0.4,
+            //     roughness: 0.5
+            // }),
+            // equipment3: new THREE.MeshStandardMaterial({ 
+            //     color: 0xffeb3b, // жёлтый
+            //     metalness: 0.4,
+            //     roughness: 0.5
+            // }),
+            // pipe: new THREE.MeshStandardMaterial({ 
+            //     color: 0x607d8b, // серо-голубой
+            //     metalness: 0.7,
+            //     roughness: 0.3
+            // })
         };
         
         // Загрузка шрифта для 3D текста
@@ -437,9 +463,10 @@
             });
             
             // Добавление обработчиков событий для слайдеров
-            document.getElementById('floor-slider').addEventListener('input', updateFloorCount);
-            document.getElementById('height-slider').addEventListener('input', updateTierHeight);
-            document.getElementById('equipment-slider').addEventListener('input', updateEquipmentCount);
+            document.getElementById('power-slider').addEventListener('input', updatePower);
+            // document.getElementById('floor-slider').addEventListener('input', updateFloorCount);
+            // document.getElementById('height-slider').addEventListener('input', updateTierHeight);
+            // document.getElementById('equipment-slider').addEventListener('input', updateEquipmentCount);
         }
         
         // Добавление освещения (ярче)
@@ -503,7 +530,7 @@
             };
             
             // Размер по длине
-            const lengthText = `${structureLength.toFixed(1)} м`;
+            const lengthText = `${structureLength.toFixed(1)} meter`;
             const lengthGeometry = new THREE.TextGeometry(lengthText, textOptions);
             const lengthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const lengthMesh = new THREE.Mesh(lengthGeometry, lengthMaterial);
@@ -517,7 +544,7 @@
             scene.add(lengthMesh);
             
             // Размер по ширине
-            const widthText = `${structureWidth.toFixed(1)} м`;
+            const widthText = `${structureWidth.toFixed(1)} meter`;
             const widthGeometry = new THREE.TextGeometry(widthText, textOptions);
             const widthMaterial = new THREE.MeshBasicMaterial({ color: 0x1565c0 });
             const widthMesh = new THREE.Mesh(widthGeometry, widthMaterial);
@@ -532,46 +559,46 @@
             scene.add(widthMesh);
             
             // Размер по высоте (будет обновляться)
-            updateHeightLabel();
+            // updateHeightLabel();
         }
         
         // Обновление надписи высоты
-        function updateHeightLabel() {
-            // Удаляем старую надпись высоты, если есть
-            const oldHeightLabel = scene.getObjectByName('heightLabel');
-            if (oldHeightLabel) {
-                scene.remove(oldHeightLabel);
-            }
-            
-            if (!font) return;
-            
-            const totalHeight = floorCount * tierHeight;
-            const heightText = `Высота: ${totalHeight.toFixed(1)} м`;
-            
-            const textOptions = {
-                font: font,
-                size: 0.8,
-                height: 0.1,
-                curveSegments: 12,
-                bevelEnabled: false
-            };
-            
-            const heightGeometry = new THREE.TextGeometry(heightText, textOptions);
-            const heightMaterial = new THREE.MeshBasicMaterial({ color: 0xff9800 });
-            const heightMesh = new THREE.Mesh(heightGeometry, heightMaterial);
-            heightMesh.name = 'heightLabel';
-            
-            // Центрируем геометрию текста
-            heightGeometry.computeBoundingBox();
-            const textWidth = heightGeometry.boundingBox.max.x - heightGeometry.boundingBox.min.x;
-            
-            heightMesh.position.set(structureLength/2 + 2, totalHeight/2, 0);
-            scene.add(heightMesh);
-            
-            // Обновляем текст в панели управления
-           // document.getElementById('dimensions-text').textContent = 
-           //     `Длина: ${structureLength.toFixed(1)} м, Ширина: ${structureWidth.toFixed(1)} м, Высота: ${totalHeight.toFixed(1)} м`;
-        }
+        // function updateHeightLabel() {
+        //     // Удаляем старую надпись высоты, если есть
+        //     const oldHeightLabel = scene.getObjectByName('heightLabel');
+        //     if (oldHeightLabel) {
+        //         scene.remove(oldHeightLabel);
+        //     }
+        //     
+        //     if (!font) return;
+        //     
+        //     const totalHeight = floorCount * tierHeight;
+        //     const heightText = `Высота: ${totalHeight.toFixed(1)} м`;
+        //     
+        //     const textOptions = {
+        //         font: font,
+        //         size: 0.8,
+        //         height: 0.1,
+        //         curveSegments: 12,
+        //         bevelEnabled: false
+        //     };
+        //     
+        //     const heightGeometry = new THREE.TextGeometry(heightText, textOptions);
+        //     const heightMaterial = new THREE.MeshBasicMaterial({ color: 0xff9800 });
+        //     const heightMesh = new THREE.Mesh(heightGeometry, heightMaterial);
+        //     heightMesh.name = 'heightLabel';
+        //     
+        //     // Центрируем геометрию текста
+        //     heightGeometry.computeBoundingBox();
+        //     const textWidth = heightGeometry.boundingBox.max.x - heightGeometry.boundingBox.min.x;
+        //     
+        //     heightMesh.position.set(structureLength/2 + 2, totalHeight/2, 0);
+        //     scene.add(heightMesh);
+        //     
+        //     // Обновляем текст в панели управления
+        //    // document.getElementById('dimensions-text').textContent = 
+        //    //     `Длина: ${structureLength.toFixed(1)} м, Ширина: ${structureWidth.toFixed(1)} м, Высота: ${totalHeight.toFixed(1)} м`;
+        // }
         
         // Создание двутавровой колонны
         function createIBeamColumn(x, z, height) {
@@ -603,156 +630,156 @@
         }
         
         // Создание крестообразного раскоса
-        function createCrossDiagonal(x1, z1, x2, z2, yPos, height) {
-            const diagonalGroup = new THREE.Group();
-            
-            // Вычисляем длину диагонали
-            const dx = x2 - x1;
-            const dz = z2 - z1;
-            const length = Math.sqrt(dx*dx + dz*dz);
-            
-            // Первый диагональный элемент (основной)
-            const diag1Geometry = new THREE.BoxGeometry(0.08, height, 0.08);
-            const diag1 = new THREE.Mesh(diag1Geometry, materials.diagonal);
-            diag1.castShadow = true;
-            
-            // Второй диагональный элемент (крест-накрест)
-            const diag2 = new THREE.Mesh(diag1Geometry, materials.diagonal);
-            diag2.castShadow = true;
-            diag2.rotation.y = Math.PI / 2;
-            
-            // Позиционируем группу
-            diagonalGroup.add(diag1);
-            diagonalGroup.add(diag2);
-            
-            diagonalGroup.position.set(
-                (x1 + x2) / 2,
-                yPos,
-                (z1 + z2) / 2
-            );
-            
-            // Поворачиваем по направлению диагонали
-            const angle = Math.atan2(dz, dx);
-            diagonalGroup.rotation.y = angle;
-            
-            return diagonalGroup;
-        }
+        // function createCrossDiagonal(x1, z1, x2, z2, yPos, height) {
+        //     const diagonalGroup = new THREE.Group();
+        //     
+        //     // Вычисляем длину диагонали
+        //     const dx = x2 - x1;
+        //     const dz = z2 - z1;
+        //     const length = Math.sqrt(dx*dx + dz*dz);
+        //     
+        //     // Первый диагональный элемент (основной)
+        //     const diag1Geometry = new THREE.BoxGeometry(0.08, height, 0.08);
+        //     const diag1 = new THREE.Mesh(diag1Geometry, materials.diagonal);
+        //     diag1.castShadow = true;
+        //     
+        //     // Второй диагональный элемент (крест-накрест)
+        //     const diag2 = new THREE.Mesh(diag1Geometry, materials.diagonal);
+        //     diag2.castShadow = true;
+        //     diag2.rotation.y = Math.PI / 2;
+        //     
+        //     // Позиционируем группу
+        //     diagonalGroup.add(diag1);
+        //     diagonalGroup.add(diag2);
+        //     
+        //     diagonalGroup.position.set(
+        //         (x1 + x2) / 2,
+        //         yPos,
+        //         (z1 + z2) / 2
+        //     );
+        //     
+        //     // Поворачиваем по направлению диагонали
+        //     const angle = Math.atan2(dz, dx);
+        //     diagonalGroup.rotation.y = angle;
+        //     
+        //     return diagonalGroup;
+        // }
         
         // Создание пола яруса
-        function createFloor(level, yPos) {
-            const floorGroup = new THREE.Group();
-            
-            // Решётчатый настил
-            const floorSizeX = structureLength - 1;
-            const floorSizeZ = structureWidth - 1;
-            
-            // Основная решётка
-            for (let i = 0; i <= 10; i++) {
-                // Продольные элементы
-                const beamXGeometry = new THREE.BoxGeometry(floorSizeX, 0.05, 0.05);
-                const beamX = new THREE.Mesh(beamXGeometry, materials.floor);
-                beamX.position.set(0, yPos + 0.025, -floorSizeZ/2 + i * floorSizeZ/10);
-                beamX.castShadow = true;
-                floorGroup.add(beamX);
-                
-                // Поперечные элементы
-                const beamZGeometry = new THREE.BoxGeometry(0.05, 0.05, floorSizeZ);
-                const beamZ = new THREE.Mesh(beamZGeometry, materials.floor);
-                beamZ.position.set(-floorSizeX/2 + i * floorSizeX/10, yPos + 0.025, 0);
-                beamZ.castShadow = true;
-                floorGroup.add(beamZ);
-            }
-            
-            return floorGroup;
-        }
+        // function createFloor(level, yPos) {
+        //     const floorGroup = new THREE.Group();
+        //     
+        //     // Решётчатый настил
+        //     const floorSizeX = structureLength - 1;
+        //     const floorSizeZ = structureWidth - 1;
+        //     
+        //     // Основная решётка
+        //     for (let i = 0; i <= 10; i++) {
+        //         // Продольные элементы
+        //         const beamXGeometry = new THREE.BoxGeometry(floorSizeX, 0.05, 0.05);
+        //         const beamX = new THREE.Mesh(beamXGeometry, materials.floor);
+        //         beamX.position.set(0, yPos + 0.025, -floorSizeZ/2 + i * floorSizeZ/10);
+        //         beamX.castShadow = true;
+        //         floorGroup.add(beamX);
+        //         
+        //         // Поперечные элементы
+        //         const beamZGeometry = new THREE.BoxGeometry(0.05, 0.05, floorSizeZ);
+        //         const beamZ = new THREE.Mesh(beamZGeometry, materials.floor);
+        //         beamZ.position.set(-floorSizeX/2 + i * floorSizeX/10, yPos + 0.025, 0);
+        //         beamZ.castShadow = true;
+        //         floorGroup.add(beamZ);
+        //     }
+        //     
+        //     return floorGroup;
+        // }
         
         // Создание оборудования на ярусе
-        function createEquipment(level, yPos) {
-            const equipmentGroup = new THREE.Group();
-            
-            // Количество оборудования в зависимости от настройки
-            const count = Math.min(equipmentCount, 6);
-            
-            // Различные типы оборудования
-            for (let i = 0; i < count; i++) {
-                const type = i % 3;
-                let equipment;
-                
-                switch(type) {
-                    case 0: // Цистерна (цилиндр)
-                        const tankGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.2, 16);
-                        equipment = new THREE.Mesh(tankGeometry, materials.equipment1);
-                        equipment.position.set(
-                            -structureLength/3 + (i % 3) * structureLength/3,
-                            yPos + 0.6,
-                            -structureWidth/4 + Math.floor(i/3) * structureWidth/2
-                        );
-                        break;
-                        
-                    case 1: // Шаровая ёмкость
-                        const sphereGeometry = new THREE.SphereGeometry(0.6, 16, 16);
-                        equipment = new THREE.Mesh(sphereGeometry, materials.equipment2);
-                        equipment.position.set(
-                            -structureLength/4 + (i % 3) * structureLength/4,
-                            yPos + 0.6,
-                            -structureWidth/3 + Math.floor(i/3) * structureWidth/3
-                        );
-                        break;
-                        
-                    case 2: // Кубический резервуар
-                        const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-                        equipment = new THREE.Mesh(cubeGeometry, materials.equipment3);
-                        equipment.position.set(
-                            -structureLength/3 + (i % 3) * structureLength/3,
-                            yPos + 0.5,
-                            structureWidth/4 - Math.floor(i/3) * structureWidth/2
-                        );
-                        break;
-                }
-                
-                equipment.castShadow = true;
-                equipmentGroup.add(equipment);
-                
-                // Добавляем трубы к оборудованию
-                if (i > 0) {
-                    const prevEquipment = equipmentGroup.children[i-1];
-                    if (prevEquipment) {
-                        const pipe = createPipe(
-                            prevEquipment.position.x, prevEquipment.position.y, prevEquipment.position.z,
-                            equipment.position.x, equipment.position.y, equipment.position.z
-                        );
-                        equipmentGroup.add(pipe);
-                    }
-                }
-            }
-            
-            return equipmentGroup;
-        }
+        // function createEquipment(level, yPos) {
+        //     const equipmentGroup = new THREE.Group();
+        //     
+        //     // Количество оборудования в зависимости от настройки
+        //     const count = Math.min(equipmentCount, 6);
+        //     
+        //     // Различные типы оборудования
+        //     for (let i = 0; i < count; i++) {
+        //         const type = i % 3;
+        //         let equipment;
+        //         
+        //         switch(type) {
+        //             case 0: // Цистерна (цилиндр)
+        //                 const tankGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1.2, 16);
+        //                 equipment = new THREE.Mesh(tankGeometry, materials.equipment1);
+        //                 equipment.position.set(
+        //                     -structureLength/3 + (i % 3) * structureLength/3,
+        //                     yPos + 0.6,
+        //                     -structureWidth/4 + Math.floor(i/3) * structureWidth/2
+        //                 );
+        //                 break;
+        //                 
+        //             case 1: // Шаровая ёмкость
+        //                 const sphereGeometry = new THREE.SphereGeometry(0.6, 16, 16);
+        //                 equipment = new THREE.Mesh(sphereGeometry, materials.equipment2);
+        //                 equipment.position.set(
+        //                     -structureLength/4 + (i % 3) * structureLength/4,
+        //                     yPos + 0.6,
+        //                     -structureWidth/3 + Math.floor(i/3) * structureWidth/3
+        //                 );
+        //                 break;
+        //                 
+        //             case 2: // Кубический резервуар
+        //                 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+        //                 equipment = new THREE.Mesh(cubeGeometry, materials.equipment3);
+        //                 equipment.position.set(
+        //                     -structureLength/3 + (i % 3) * structureLength/3,
+        //                     yPos + 0.5,
+        //                     structureWidth/4 - Math.floor(i/3) * structureWidth/2
+        //                 );
+        //                 break;
+        //         }
+        //         
+        //         equipment.castShadow = true;
+        //         equipmentGroup.add(equipment);
+        //         
+        //         // Добавляем трубы к оборудованию
+        //         if (i > 0) {
+        //             const prevEquipment = equipmentGroup.children[i-1];
+        //             if (prevEquipment) {
+        //                 const pipe = createPipe(
+        //                     prevEquipment.position.x, prevEquipment.position.y, prevEquipment.position.z,
+        //                     equipment.position.x, equipment.position.y, equipment.position.z
+        //                 );
+        //                 equipmentGroup.add(pipe);
+        //             }
+        //         }
+        //     }
+        //     
+        //     return equipmentGroup;
+        // }
         
         // Создание трубы
-        function createPipe(x1, y1, z1, x2, y2, z2) {
-            const dx = x2 - x1;
-            const dy = y2 - y1;
-            const dz = z2 - z1;
-            const length = Math.sqrt(dx*dx + dy*dy + dz*dz);
-            
-            const pipeGeometry = new THREE.CylinderGeometry(0.05, 0.05, length, 8);
-            const pipe = new THREE.Mesh(pipeGeometry, materials.pipe);
-            pipe.castShadow = true;
-            
-            // Позиционируем и поворачиваем трубу
-            pipe.position.set(
-                (x1 + x2) / 2,
-                (y1 + y2) / 2,
-                (z1 + z2) / 2
-            );
-            
-            // Вычисляем угол поворота
-            pipe.rotation.x = Math.atan2(dz, Math.sqrt(dx*dx + dy*dy));
-            pipe.rotation.z = Math.atan2(dy, dx);
-            
-            return pipe;
-        }
+        // function createPipe(x1, y1, z1, x2, y2, z2) {
+        //     const dx = x2 - x1;
+        //     const dy = y2 - y1;
+        //     const dz = z2 - z1;
+        //     const length = Math.sqrt(dx*dx + dy*dy + dz*dz);
+        //     
+        //     const pipeGeometry = new THREE.CylinderGeometry(0.05, 0.05, length, 8);
+        //     const pipe = new THREE.Mesh(pipeGeometry, materials.pipe);
+        //     pipe.castShadow = true;
+        //     
+        //     // Позиционируем и поворачиваем трубу
+        //     pipe.position.set(
+        //         (x1 + x2) / 2,
+        //         (y1 + y2) / 2,
+        //         (z1 + z2) / 2
+        //     );
+        //     
+        //     // Вычисляем угол поворота
+        //     pipe.rotation.x = Math.atan2(dz, Math.sqrt(dx*dx + dy*dy));
+        //     pipe.rotation.z = Math.atan2(dy, dx);
+        //     
+        //     return pipe;
+        // }
         
         // Создание ригеля (горизонтальной балки)
         function createBeam(startX, startZ, endX, endZ, yPos) {
@@ -835,7 +862,7 @@
                 columns.push(column);
             });
             
-            let diagonalCount = 0;
+            // let diagonalCount = 0;
             
             // Создаем ярусы
             for (let floor = 0; floor < floorCount; floor++) {
@@ -852,68 +879,68 @@
                 structure.add(createBeam(structureLength/2, -structureWidth/2, structureLength/2, structureWidth/2, currentY));
                 
                 // Крестообразные раскосы в вертикальных плоскостях
-                if (floor < floorCount - 1) {
-                    // Фасадные раскосы (передняя сторона)
-                    structure.add(createCrossDiagonal(
-                        -structureLength/2, -structureWidth/2,
-                        structureLength/2, -structureWidth/2,
-                        (currentY + nextY) / 2,
-                        tierHeight
-                    ));
-                    diagonalCount += 2; // Крестообразный раскос считаем как 2 элемента
-                    
-                    // Боковые раскосы (левая сторона)
-                    structure.add(createCrossDiagonal(
-                        -structureLength/2, -structureWidth/2,
-                        -structureLength/2, structureWidth/2,
-                        (currentY + nextY) / 2,
-                        tierHeight
-                    ));
-                    diagonalCount += 2;
-                    
-                    // Задние раскосы
-                    structure.add(createCrossDiagonal(
-                        -structureLength/2, structureWidth/2,
-                        structureLength/2, structureWidth/2,
-                        (currentY + nextY) / 2,
-                        tierHeight
-                    ));
-                    diagonalCount += 2;
-                    
-                    // Правые боковые раскосы
-                    structure.add(createCrossDiagonal(
-                        structureLength/2, -structureWidth/2,
-                        structureLength/2, structureWidth/2,
-                        (currentY + nextY) / 2,
-                        tierHeight
-                    ));
-                    diagonalCount += 2;
-                    
-                    // Диагональные связи в горизонтальной плоскости
-                    structure.add(createCrossDiagonal(
-                        -structureLength/2, -structureWidth/2,
-                        structureLength/2, structureWidth/2,
-                        currentY + tierHeight/2,
-                        0.5
-                    ));
-                    diagonalCount += 2;
-                    
-                    structure.add(createCrossDiagonal(
-                        structureLength/2, -structureWidth/2,
-                        -structureLength/2, structureWidth/2,
-                        currentY + tierHeight/2,
-                        0.5
-                    ));
-                    diagonalCount += 2;
-                }
+                // if (floor < floorCount - 1) {
+                //     // Фасадные раскосы (передняя сторона)
+                //     structure.add(createCrossDiagonal(
+                //         -structureLength/2, -structureWidth/2,
+                //         structureLength/2, -structureWidth/2,
+                //         (currentY + nextY) / 2,
+                //         tierHeight
+                //     ));
+                //     diagonalCount += 2; // Крестообразный раскос считаем как 2 элемента
+                //     
+                //     // Боковые раскосы (левая сторона)
+                //     structure.add(createCrossDiagonal(
+                //         -structureLength/2, -structureWidth/2,
+                //         -structureLength/2, structureWidth/2,
+                //         (currentY + nextY) / 2,
+                //         tierHeight
+                //     ));
+                //     diagonalCount += 2;
+                //     
+                //     // Задние раскосы
+                //     structure.add(createCrossDiagonal(
+                //         -structureLength/2, structureWidth/2,
+                //         structureLength/2, structureWidth/2,
+                //         (currentY + nextY) / 2,
+                //         tierHeight
+                //     ));
+                //     diagonalCount += 2;
+                //     
+                //     // Правые боковые раскосы
+                //     structure.add(createCrossDiagonal(
+                //         structureLength/2, -structureWidth/2,
+                //         structureLength/2, structureWidth/2,
+                //         (currentY + nextY) / 2,
+                //         tierHeight
+                //     ));
+                //     diagonalCount += 2;
+                //     
+                //     // Диагональные связи в горизонтальной плоскости
+                //     structure.add(createCrossDiagonal(
+                //         -structureLength/2, -structureWidth/2,
+                //         structureLength/2, structureWidth/2,
+                //         currentY + tierHeight/2,
+                //         0.5
+                //     ));
+                //     diagonalCount += 2;
+                //     
+                //     structure.add(createCrossDiagonal(
+                //         structureLength/2, -structureWidth/2,
+                //         -structureLength/2, structureWidth/2,
+                //         currentY + tierHeight/2,
+                //         0.5
+                //     ));
+                //     diagonalCount += 2;
+                // }
                 
                 // Пол яруса (начиная со второго яруса)
-                if (floor > 0) {
-                    structure.add(createFloor(floor, currentY - 0.1));
-                    
-                    // Оборудование на ярусе
-                    structure.add(createEquipment(floor, currentY));
-                }
+                // if (floor > 0) {
+                //     structure.add(createFloor(floor, currentY - 0.1));
+                //     
+                //     // Оборудование на ярусе
+                //     // structure.add(createEquipment(floor, currentY));
+                // }
             }
             
             // Верхний пояс (на самом верху)
@@ -930,29 +957,36 @@
             //    `Колонн: ${columns.length}, Раскосов: ${diagonalCount}, Ярусов: ${floorCount}`;
             
             // Обновляем надпись высоты
-            updateHeightLabel();
+            // updateHeightLabel();
+        }
+
+        // Обновление power
+        function updatePower(event) {
+            powerCount = parseInt(event.target.value);
+            document.getElementById('power-value').textContent = powerCount;
+            createStructure();
         }
         
         // Обновление количества ярусов
-        function updateFloorCount(event) {
-            floorCount = parseInt(event.target.value);
-            document.getElementById('floor-value').textContent = floorCount;
-            createStructure();
-        }
+        // function updateFloorCount(event) {
+        //     floorCount = parseInt(event.target.value);
+        //     document.getElementById('floor-value').textContent = floorCount;
+        //     createStructure();
+        // }
         
         // Обновление высоты яруса
-        function updateTierHeight(event) {
-            tierHeight = parseFloat(event.target.value);
-            document.getElementById('height-value').textContent = tierHeight.toFixed(1);
-            createStructure();
-        }
+        // function updateTierHeight(event) {
+        //     tierHeight = parseFloat(event.target.value);
+        //     document.getElementById('height-value').textContent = tierHeight.toFixed(1);
+        //     createStructure();
+        // }
         
         // Обновление количества оборудования
-        function updateEquipmentCount(event) {
-            equipmentCount = parseInt(event.target.value);
-            document.getElementById('equipment-value').textContent = equipmentCount;
-            createStructure();
-        }
+        // function updateEquipmentCount(event) {
+        //     equipmentCount = parseInt(event.target.value);
+        //     document.getElementById('equipment-value').textContent = equipmentCount;
+        //     createStructure();
+        // }
         
         // Анимация
         function animate() {
